@@ -1,67 +1,62 @@
 import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  Tree,
-  TreeChildren,
-  TreeParent,
-} from "typeorm";
-import { Npc } from "./Npc";
-import { Shop } from "./Shop";
-import { Region } from "./Region";
-import { ImportantFigure } from "./ImportantFigure";
-
+    Column,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    OneToMany,
+    PrimaryGeneratedColumn,
+    Tree,
+    TreeChildren,
+    TreeParent,
+} from 'typeorm';
+import { Npc } from './Npc';
+import { Shop } from './Shop';
+import { Region } from './Region';
+import { ImportantFigure } from './ImportantFigure';
 
 @Entity()
-@Tree("materialized-path")
+@Tree('materialized-path')
 export class Town {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @TreeParent()
-  capital: Town;
+    @TreeParent()
+    capital: Town;
 
-  @TreeChildren()
-  towns_where_capital: Town[];
+    @TreeChildren()
+    towns_where_capital: Town[];
 
-  @Column({
-    nullable: true,
-    default: () => 'false',
-  })
-  is_capital: boolean | null;
+    @Column({
+        nullable: true,
+        default: () => 'false',
+    })
+    is_capital: boolean | null;
 
-  @Column({ nullable: true, length: 255 })
-  landmarks: string | null;
+    @Column({ nullable: true, length: 255 })
+    landmarks: string | null;
 
-  @Column({ length: 100 })
-  name: string;
+    @Column({ length: 100 })
+    name: string;
 
-  @Column()
-  population: number;
+    @Column()
+    population: number;
 
-  @Column()
-  prosperity: number;
+    @Column()
+    prosperity: number;
 
-  @Column({type:"bytea"})
-  map:Buffer
+    @Column({ type: 'bytea' })
+    map: Buffer;
 
-  @OneToMany(
-    () => ImportantFigure,
-    (importantFigures) => importantFigures.town
-  )
-  important_figures: ImportantFigure[];
+    @OneToMany(() => ImportantFigure, (importantFigures) => importantFigures.town)
+    important_figures: ImportantFigure[];
 
-  @OneToMany(() => Npc, (npcs) => npcs.town)
-  npcs: Npc[];
+    @OneToMany(() => Npc, (npcs) => npcs.town)
+    npcs: Npc[];
 
-  @ManyToOne(() => Region, (regions) => regions.towns)
-  @JoinColumn({ name: 'region_id' })
-  region: Region;
+    @ManyToOne(() => Region, (regions) => regions.towns)
+    @JoinColumn({ name: 'region_id' })
+    region: Region;
 
-  @OneToMany(() => Shop, (shops) => shops.town)
-  shops: Shop[];
-
+    @OneToMany(() => Shop, (shops) => shops.town)
+    shops: Shop[];
 }

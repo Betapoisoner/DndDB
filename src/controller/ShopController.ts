@@ -1,6 +1,6 @@
-import { AppDataSource } from "../data-source";
-import { NextFunction, Request, Response } from "express";
-import { Shop } from "../entity/Shop";
+import { AppDataSource } from '../data-source';
+import { NextFunction, Request, Response } from 'express';
+import { Shop } from '../entity/Shop';
 
 export class ShopController {
     private shopRepository = AppDataSource.getRepository(Shop);
@@ -21,10 +21,10 @@ export class ShopController {
                 shops: shops,
             });
         } catch (error) {
-            console.log(error)
+            console.log(error);
             response.status(500).json({
-                "status": 500,
-                "error": error,
+                status: 500,
+                error: error,
             });
         }
     }
@@ -43,19 +43,19 @@ export class ShopController {
 
             if (!shop) {
                 response.status(404).json({
-                    "status": 404,
-                    "error": "Unregistered shop",
+                    status: 404,
+                    error: 'Unregistered shop',
                 });
             }
             response.status(200).json({
-                "status": 200,
-                "shop": shop,
+                status: 200,
+                shop: shop,
             });
         } catch (error) {
-            console.log(error)
+            console.log(error);
             response.status(500).json({
-                "status": 500,
-                "error": error,
+                status: 500,
+                error: error,
             });
         }
     }
@@ -67,21 +67,21 @@ export class ShopController {
 
         if (!shopToRemove) {
             return {
-                "status": 404,
-                "error": "This shop does not exist",
+                status: 404,
+                error: 'This shop does not exist',
             };
         }
 
-        await this.shopRepository.remove(shopToRemove).catch(error => {
+        await this.shopRepository.remove(shopToRemove).catch((error) => {
             return {
-                "status": 500,
-                "error": error,
+                status: 500,
+                error: error,
             };
         });
 
         return {
-            "status": 200,
-            "message": "Shop has been removed",
+            status: 200,
+            message: 'Shop has been removed',
         };
     }
 
@@ -95,17 +95,20 @@ export class ShopController {
             town,
         });
 
-        return await this.shopRepository.save(shop).catch(error => {
-            return {
-                "status": 500,
-                "error": error,
-            };
-        }).then(shopReturn => {
-            return {
-                "status": 200,
-                "shop": shopReturn,
-            };
-        });
+        return await this.shopRepository
+            .save(shop)
+            .catch((error) => {
+                return {
+                    status: 500,
+                    error: error,
+                };
+            })
+            .then((shopReturn) => {
+                return {
+                    status: 200,
+                    shop: shopReturn,
+                };
+            });
     }
 
     async update(request: Request, response: Response, next: NextFunction) {
@@ -121,8 +124,8 @@ export class ShopController {
 
         if (!shopToUpdate) {
             return {
-                "status": 404,
-                "error": "This shop does not exist",
+                status: 404,
+                error: 'This shop does not exist',
             };
         }
 
@@ -133,16 +136,19 @@ export class ShopController {
         if (inventory !== undefined) shopToUpdate.inventory = inventory;
         if (town !== undefined) shopToUpdate.town = town;
 
-        return await this.shopRepository.save(shopToUpdate).catch(error => {
-            return {
-                "status": 500,
-                "error": error,
-            };
-        }).then(shopReturn => {
-            return {
-                "status": 200,
-                "shop": shopReturn,
-            };
-        });
+        return await this.shopRepository
+            .save(shopToUpdate)
+            .catch((error) => {
+                return {
+                    status: 500,
+                    error: error,
+                };
+            })
+            .then((shopReturn) => {
+                return {
+                    status: 200,
+                    shop: shopReturn,
+                };
+            });
     }
 }

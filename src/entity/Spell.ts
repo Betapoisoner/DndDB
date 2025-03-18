@@ -1,13 +1,8 @@
-import {
-    Column,
-    Entity,
-    ManyToMany,
-    PrimaryGeneratedColumn,
-} from "typeorm";
-import { Character } from "./Character";
-import { Monster } from "./Monster";
-import { Bbeg } from "./Bbeg";
-import { Npc } from "./Npc";
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Character } from './Character';
+import { Monster } from './Monster';
+import { Bbeg } from './Bbeg';
+import { Npc } from './Npc';
 
 @Entity()
 export class Spell {
@@ -19,10 +14,8 @@ export class Spell {
 
     @Column()
     component: string;
-    ;
     @Column()
     duration: string;
-
 
     @Column({ length: 255 })
     name: string;

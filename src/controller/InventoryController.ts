@@ -1,6 +1,6 @@
-import { AppDataSource } from "../data-source";
-import { NextFunction, Request, Response } from "express";
-import { Inventory } from "../entity/Inventory";
+import { AppDataSource } from '../data-source';
+import { NextFunction, Request, Response } from 'express';
+import { Inventory } from '../entity/Inventory';
 
 export class InventoryController {
     private inventoryRepository = AppDataSource.getRepository(Inventory);
@@ -12,8 +12,8 @@ export class InventoryController {
             },
         });
         return {
-            "status": 200,
-            "inventories": inventories,
+            status: 200,
+            inventories: inventories,
         };
     }
 
@@ -29,13 +29,13 @@ export class InventoryController {
 
         if (!inventory) {
             return {
-                "status": 404,
-                "error": "Unregistered inventory",
+                status: 404,
+                error: 'Unregistered inventory',
             };
         }
         return {
-            "status": 200,
-            "inventory": inventory,
+            status: 200,
+            inventory: inventory,
         };
     }
 
@@ -46,21 +46,21 @@ export class InventoryController {
 
         if (!inventoryToRemove) {
             return {
-                "status": 404,
-                "error": "This inventory does not exist",
+                status: 404,
+                error: 'This inventory does not exist',
             };
         }
 
-        await this.inventoryRepository.remove(inventoryToRemove).catch(error => {
+        await this.inventoryRepository.remove(inventoryToRemove).catch((error) => {
             return {
-                "status": 500,
-                "error": error,
+                status: 500,
+                error: error,
             };
         });
 
         return {
-            "status": 200,
-            "message": "Inventory has been removed",
+            status: 200,
+            message: 'Inventory has been removed',
         };
     }
 
@@ -71,17 +71,20 @@ export class InventoryController {
             items,
         });
 
-        return await this.inventoryRepository.save(inventory).catch(error => {
-            return {
-                "status": 500,
-                "error": error,
-            };
-        }).then(inventoryReturn => {
-            return {
-                "status": 200,
-                "inventory": inventoryReturn,
-            };
-        });
+        return await this.inventoryRepository
+            .save(inventory)
+            .catch((error) => {
+                return {
+                    status: 500,
+                    error: error,
+                };
+            })
+            .then((inventoryReturn) => {
+                return {
+                    status: 200,
+                    inventory: inventoryReturn,
+                };
+            });
     }
 
     async update(request: Request, response: Response, next: NextFunction) {
@@ -96,8 +99,8 @@ export class InventoryController {
 
         if (!inventoryToUpdate) {
             return {
-                "status": 404,
-                "error": "This inventory does not exist",
+                status: 404,
+                error: 'This inventory does not exist',
             };
         }
 
@@ -105,16 +108,19 @@ export class InventoryController {
 
         if (items !== undefined && Array.isArray(items)) inventoryToUpdate.items = items;
 
-        return await this.inventoryRepository.save(inventoryToUpdate).catch(error => {
-            return {
-                "status": 500,
-                "error": error,
-            };
-        }).then(inventoryReturn => {
-            return {
-                "status": 200,
-                "inventory": inventoryReturn,
-            };
-        });
+        return await this.inventoryRepository
+            .save(inventoryToUpdate)
+            .catch((error) => {
+                return {
+                    status: 500,
+                    error: error,
+                };
+            })
+            .then((inventoryReturn) => {
+                return {
+                    status: 200,
+                    inventory: inventoryReturn,
+                };
+            });
     }
 }

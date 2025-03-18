@@ -1,6 +1,6 @@
-import { AppDataSource } from "../data-source";
-import { NextFunction, Request, Response } from "express";
-import { Item } from "../entity/Item";
+import { AppDataSource } from '../data-source';
+import { NextFunction, Request, Response } from 'express';
+import { Item } from '../entity/Item';
 
 export class ItemController {
     private itemRepository = AppDataSource.getRepository(Item);
@@ -13,8 +13,8 @@ export class ItemController {
             },
         });
         return {
-            "status": 200,
-            "items": items,
+            status: 200,
+            items: items,
         };
     }
 
@@ -31,13 +31,13 @@ export class ItemController {
 
         if (!item) {
             return {
-                "status": 404,
-                "error": "Unregistered item",
+                status: 404,
+                error: 'Unregistered item',
             };
         }
         return {
-            "status": 200,
-            "item": item,
+            status: 200,
+            item: item,
         };
     }
 
@@ -48,37 +48,26 @@ export class ItemController {
 
         if (!itemToRemove) {
             return {
-                "status": 404,
-                "error": "This item does not exist",
+                status: 404,
+                error: 'This item does not exist',
             };
         }
 
-        await this.itemRepository.remove(itemToRemove).catch(error => {
+        await this.itemRepository.remove(itemToRemove).catch((error) => {
             return {
-                "status": 500,
-                "error": error,
+                status: 500,
+                error: error,
             };
         });
 
         return {
-            "status": 200,
-            "message": "Item has been removed",
+            status: 200,
+            message: 'Item has been removed',
         };
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        const {
-            description,
-            name,
-            quantity,
-            rarity,
-            type,
-            value,
-            weight,
-            photo,
-            iventories,
-            rewards,
-        } = request.body;
+        const { description, name, quantity, rarity, type, value, weight, photo, iventories, rewards } = request.body;
 
         const item = Object.assign(new Item(), {
             description,
@@ -93,17 +82,20 @@ export class ItemController {
             rewards,
         });
 
-        return await this.itemRepository.save(item).catch(error => {
-            return {
-                "status": 500,
-                "error": error,
-            };
-        }).then(itemReturn => {
-            return {
-                "status": 200,
-                "item": itemReturn,
-            };
-        });
+        return await this.itemRepository
+            .save(item)
+            .catch((error) => {
+                return {
+                    status: 500,
+                    error: error,
+                };
+            })
+            .then((itemReturn) => {
+                return {
+                    status: 200,
+                    item: itemReturn,
+                };
+            });
     }
 
     async update(request: Request, response: Response, next: NextFunction) {
@@ -119,23 +111,12 @@ export class ItemController {
 
         if (!itemToUpdate) {
             return {
-                "status": 404,
-                "error": "This item does not exist",
+                status: 404,
+                error: 'This item does not exist',
             };
         }
 
-        const {
-            description,
-            name,
-            quantity,
-            rarity,
-            type,
-            value,
-            weight,
-            photo,
-            iventories,
-            rewards,
-        } = request.body;
+        const { description, name, quantity, rarity, type, value, weight, photo, iventories, rewards } = request.body;
 
         if (description !== undefined) itemToUpdate.description = description;
         if (name !== undefined) itemToUpdate.name = name;
@@ -150,16 +131,19 @@ export class ItemController {
         if (iventories !== undefined && Array.isArray(iventories)) itemToUpdate.iventories = iventories;
         if (rewards !== undefined && Array.isArray(rewards)) itemToUpdate.rewards = rewards;
 
-        return await this.itemRepository.save(itemToUpdate).catch(error => {
-            return {
-                "status": 500,
-                "error": error,
-            };
-        }).then(itemReturn => {
-            return {
-                "status": 200,
-                "item": itemReturn,
-            };
-        });
+        return await this.itemRepository
+            .save(itemToUpdate)
+            .catch((error) => {
+                return {
+                    status: 500,
+                    error: error,
+                };
+            })
+            .then((itemReturn) => {
+                return {
+                    status: 200,
+                    item: itemReturn,
+                };
+            });
     }
 }

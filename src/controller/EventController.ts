@@ -1,6 +1,6 @@
-import { AppDataSource } from "../data-source";
-import { NextFunction, Request, Response } from "express";
-import { Event } from "../entity/Event";
+import { AppDataSource } from '../data-source';
+import { NextFunction, Request, Response } from 'express';
+import { Event } from '../entity/Event';
 
 export class EventController {
     private eventRepository = AppDataSource.getRepository(Event);
@@ -12,8 +12,8 @@ export class EventController {
             },
         });
         return {
-            "status": 200,
-            "events": events,
+            status: 200,
+            events: events,
         };
     }
 
@@ -29,13 +29,13 @@ export class EventController {
 
         if (!event) {
             return {
-                "status": 404,
-                "error": "Unregistered event",
+                status: 404,
+                error: 'Unregistered event',
             };
         }
         return {
-            "status": 200,
-            "event": event,
+            status: 200,
+            event: event,
         };
     }
 
@@ -46,21 +46,21 @@ export class EventController {
 
         if (!eventToRemove) {
             return {
-                "status": 404,
-                "error": "This event does not exist",
+                status: 404,
+                error: 'This event does not exist',
             };
         }
 
-        await this.eventRepository.remove(eventToRemove).catch(error => {
+        await this.eventRepository.remove(eventToRemove).catch((error) => {
             return {
-                "status": 500,
-                "error": error,
+                status: 500,
+                error: error,
             };
         });
 
         return {
-            "status": 200,
-            "message": "Event has been removed",
+            status: 200,
+            message: 'Event has been removed',
         };
     }
 
@@ -74,17 +74,20 @@ export class EventController {
             session,
         });
 
-        return await this.eventRepository.save(event).catch(error => {
-            return {
-                "status": 500,
-                "error": error,
-            };
-        }).then(eventReturn => {
-            return {
-                "status": 200,
-                "event": eventReturn,
-            };
-        });
+        return await this.eventRepository
+            .save(event)
+            .catch((error) => {
+                return {
+                    status: 500,
+                    error: error,
+                };
+            })
+            .then((eventReturn) => {
+                return {
+                    status: 200,
+                    event: eventReturn,
+                };
+            });
     }
 
     async update(request: Request, response: Response, next: NextFunction) {
@@ -99,8 +102,8 @@ export class EventController {
 
         if (!eventToUpdate) {
             return {
-                "status": 404,
-                "error": "This event does not exist",
+                status: 404,
+                error: 'This event does not exist',
             };
         }
 
@@ -111,16 +114,19 @@ export class EventController {
         if (event_type !== undefined) eventToUpdate.event_type = event_type;
         if (session !== undefined) eventToUpdate.session = session;
 
-        return await this.eventRepository.save(eventToUpdate).catch(error => {
-            return {
-                "status": 500,
-                "error": error,
-            };
-        }).then(eventReturn => {
-            return {
-                "status": 200,
-                "event": eventReturn,
-            };
-        });
+        return await this.eventRepository
+            .save(eventToUpdate)
+            .catch((error) => {
+                return {
+                    status: 500,
+                    error: error,
+                };
+            })
+            .then((eventReturn) => {
+                return {
+                    status: 200,
+                    event: eventReturn,
+                };
+            });
     }
 }

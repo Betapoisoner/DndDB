@@ -1,6 +1,6 @@
-import { AppDataSource } from "../data-source";
-import { NextFunction, Request, Response } from "express";
-import { Alignment } from "../entity/Alignment";
+import { AppDataSource } from '../data-source';
+import { NextFunction, Request, Response } from 'express';
+import { Alignment } from '../entity/Alignment';
 
 export class AlignmentController {
     private alignmentRepository = AppDataSource.getRepository(Alignment);
@@ -8,8 +8,8 @@ export class AlignmentController {
     async all(request: Request, response: Response, next: NextFunction) {
         let alignments = await this.alignmentRepository.find();
         return {
-            "status": 200,
-            "alignments": alignments,
+            status: 200,
+            alignments: alignments,
         };
     }
 
@@ -22,13 +22,13 @@ export class AlignmentController {
 
         if (!foundAlignment) {
             return {
-                "status": 404,
-                "error": "Unregistered alignment",
+                status: 404,
+                error: 'Unregistered alignment',
             };
         }
         return {
-            "status": 200,
-            "alignment": foundAlignment,
+            status: 200,
+            alignment: foundAlignment,
         };
     }
 
@@ -39,21 +39,21 @@ export class AlignmentController {
 
         if (!alignmentToRemove) {
             return {
-                "status": 404,
-                "error": "This alignment does not exist",
+                status: 404,
+                error: 'This alignment does not exist',
             };
         }
 
-        await this.alignmentRepository.remove(alignmentToRemove).catch(error => {
+        await this.alignmentRepository.remove(alignmentToRemove).catch((error) => {
             return {
-                "status": 500,
-                "error": error,
+                status: 500,
+                error: error,
             };
         });
 
         return {
-            "status": 200,
-            "message": "Alignment has been removed",
+            status: 200,
+            message: 'Alignment has been removed',
         };
     }
 
@@ -65,17 +65,20 @@ export class AlignmentController {
             description,
         });
 
-        return await this.alignmentRepository.save(newAlignment).catch(error => {
-            return {
-                "status": 500,
-                "error": error,
-            };
-        }).then(alignmentReturn => {
-            return {
-                "status": 200,
-                "alignment": alignmentReturn,
-            };
-        });
+        return await this.alignmentRepository
+            .save(newAlignment)
+            .catch((error) => {
+                return {
+                    status: 500,
+                    error: error,
+                };
+            })
+            .then((alignmentReturn) => {
+                return {
+                    status: 200,
+                    alignment: alignmentReturn,
+                };
+            });
     }
 
     async update(request: Request, response: Response, next: NextFunction) {
@@ -87,8 +90,8 @@ export class AlignmentController {
 
         if (!alignmentToUpdate) {
             return {
-                "status": 404,
-                "error": "This alignment does not exist",
+                status: 404,
+                error: 'This alignment does not exist',
             };
         }
 
@@ -96,16 +99,19 @@ export class AlignmentController {
 
         if (description !== undefined) alignmentToUpdate.description = description;
 
-        return await this.alignmentRepository.save(alignmentToUpdate).catch(error => {
-            return {
-                "status": 500,
-                "error": error,
-            };
-        }).then(alignmentReturn => {
-            return {
-                "status": 200,
-                "alignment": alignmentReturn,
-            };
-        });
+        return await this.alignmentRepository
+            .save(alignmentToUpdate)
+            .catch((error) => {
+                return {
+                    status: 500,
+                    error: error,
+                };
+            })
+            .then((alignmentReturn) => {
+                return {
+                    status: 200,
+                    alignment: alignmentReturn,
+                };
+            });
     }
 }

@@ -1,6 +1,6 @@
-import { AppDataSource } from "../data-source";
-import { NextFunction, Request, Response } from "express";
-import { Character } from "../entity/Character";
+import { AppDataSource } from '../data-source';
+import { NextFunction, Request, Response } from 'express';
+import { Character } from '../entity/Character';
 
 export class CharacterController {
     private characterRepository = AppDataSource.getRepository(Character);
@@ -17,8 +17,8 @@ export class CharacterController {
             },
         });
         return {
-            "status": 200,
-            "characters": characters,
+            status: 200,
+            characters: characters,
         };
     }
 
@@ -39,13 +39,13 @@ export class CharacterController {
 
         if (!character) {
             return {
-                "status": 404,
-                "error": "Unregistered character",
+                status: 404,
+                error: 'Unregistered character',
             };
         }
         return {
-            "status": 200,
-            "character": character,
+            status: 200,
+            character: character,
         };
     }
 
@@ -56,21 +56,21 @@ export class CharacterController {
 
         if (!characterToRemove) {
             return {
-                "status": 404,
-                "error": "This character does not exist",
+                status: 404,
+                error: 'This character does not exist',
             };
         }
 
-        await this.characterRepository.remove(characterToRemove).catch(error => {
+        await this.characterRepository.remove(characterToRemove).catch((error) => {
             return {
-                "status": 500,
-                "error": error,
+                status: 500,
+                error: error,
             };
         });
 
         return {
-            "status": 200,
-            "message": "Character has been removed",
+            status: 200,
+            message: 'Character has been removed',
         };
     }
 
@@ -143,17 +143,20 @@ export class CharacterController {
             inventory,
         });
 
-        return await this.characterRepository.save(character).catch(error => {
-            return {
-                "status": 500,
-                "error": error,
-            };
-        }).then(characterReturn => {
-            return {
-                "status": 200,
-                "character": characterReturn,
-            };
-        });
+        return await this.characterRepository
+            .save(character)
+            .catch((error) => {
+                return {
+                    status: 500,
+                    error: error,
+                };
+            })
+            .then((characterReturn) => {
+                return {
+                    status: 200,
+                    character: characterReturn,
+                };
+            });
     }
 
     async update(request: Request, response: Response, next: NextFunction) {
@@ -173,8 +176,8 @@ export class CharacterController {
 
         if (!characterToUpdate) {
             return {
-                "status": 404,
-                "error": "This character does not exist",
+                status: 404,
+                error: 'This character does not exist',
             };
         }
 
@@ -246,16 +249,19 @@ export class CharacterController {
         if (spells !== undefined && Array.isArray(spells)) characterToUpdate.spells = spells;
         if (inventory !== undefined) characterToUpdate.inventory = inventory;
 
-        return await this.characterRepository.save(characterToUpdate).catch(error => {
-            return {
-                "status": 500,
-                "error": error,
-            };
-        }).then(characterReturn => {
-            return {
-                "status": 200,
-                "character": characterReturn,
-            };
-        });
+        return await this.characterRepository
+            .save(characterToUpdate)
+            .catch((error) => {
+                return {
+                    status: 500,
+                    error: error,
+                };
+            })
+            .then((characterReturn) => {
+                return {
+                    status: 200,
+                    character: characterReturn,
+                };
+            });
     }
 }

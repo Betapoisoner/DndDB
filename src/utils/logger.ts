@@ -24,20 +24,20 @@ const logColors = {
     silly: 'rainbow',
 
     // Standard Winston colors for other levels
-    fatal: 'magenta',  // Standard default for highest severity
+    fatal: 'magenta', // Standard default for highest severity
     error: 'red',
     warn: 'yellow',
     info: 'green',
-    http: 'cyan',      // Matches default verbose color
+    http: 'cyan', // Matches default verbose color
     verbose: 'gray',
-    debug: 'blue'
+    debug: 'blue',
 };
 
 // Register custom colors
 winston.addColors(logColors);
 
 const LOG_DIRECTORY = path.join(__dirname, '../../logs');
-const DEFAULT_LOG_LEVEL = 'info';
+const DEFAULT_LOG_LEVEL = 'debug';
 const LOG_FILE_PATTERN = 'DD-MM-YYYY';
 const MAX_FILE_SIZE = '20m';
 const MAX_FILES = '30d';
@@ -86,7 +86,10 @@ const logger: Logger = winston.createLogger({
             maxSize: MAX_FILE_SIZE,
             maxFiles: MAX_FILES,
             utc: true,
-            format: winston.format.combine(winston.format.timestamp(), winston.format.json({ replacer: errorReplacer })),
+            format: winston.format.combine(
+                winston.format.timestamp(),
+                winston.format.json({ replacer: errorReplacer }),
+            ),
         }),
     ],
 });
