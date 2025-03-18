@@ -1,0 +1,46 @@
+{
+    "name": "dnd_db",
+    "version": "0.0.1",
+    "description": "Awesome project developed with TypeORM.",
+    "type": "commonjs",
+    "packageManager": "pnpm@10.4.1",
+    "devDependencies": {
+        "@commitlint/cli": "^19.7.1",
+        "@commitlint/config-conventional": "^19.7.1",
+        "@types/morgan": "^1.9.9",
+        "@types/node": "^16.18.126",
+        "ts-node": "10.9.1",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "5.8.2"
+    },
+    "dependencies": {
+        "body-parser": "^1.20.3",
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.7",
+        "envalid": "^8.0.0",
+        "express": "^4.21.2",
+        "morgan": "^1.10.0",
+        "mysql2": "^3.12.0",
+        "pg": "^8.13.3",
+        "reflect-metadata": "^0.1.14",
+        "tslib": "^1.14.1",
+        "typeorm": "^0.3.20",
+        "winston": "^3.17.0",
+        "winston-daily-rotate-file": "^5.0.0"
+    },
+    "scripts": {
+        "pre:build": "pnpm format:check  && pnpm lint",
+        "pre:start": "node -e \"require('mkdirp').sync('logs')\"",
+        "start": "ts-node src/index.ts",
+        "reStart": "ts-node-dev --respawn --transpile-only src/index.ts",
+        "typeorm": "typeorm-ts-node-commonjs",
+        "lint": "eslint src/**/*.ts",
+        "lint:fix": "eslint src/**/*.ts --fix",
+        "typecheck": "tsc --noEmit",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "commit": "git add . && git cz",
+        "push": "git push",
+        "clean:logs": "rimraf logs"
+    }
+}
