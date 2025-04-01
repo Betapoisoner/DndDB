@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { World } from './World';
 import { Session } from './Session';
 import { Character } from './Character';
@@ -21,6 +21,7 @@ export class Campaign {
     name: string;
 
     @Column({ length: 20 })
+    @Index()
     status: string;
 
     @Column({ type: 'bytea', nullable: true })

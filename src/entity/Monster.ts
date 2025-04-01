@@ -1,6 +1,7 @@
 import {
     Column,
     Entity,
+    Index,
     JoinColumn,
     JoinTable,
     ManyToMany,
@@ -24,6 +25,7 @@ export class Monster {
     challenge: string | null;
 
     @Column()
+    @Index()
     challenge_rating: number;
 
     @Column()
@@ -66,6 +68,7 @@ export class Monster {
     strength: number;
 
     @Column({ length: 50 })
+    @Index()
     type: string;
 
     @Column()

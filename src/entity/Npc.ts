@@ -1,6 +1,7 @@
 import {
     Column,
     Entity,
+    Index,
     JoinColumn,
     JoinTable,
     ManyToMany,
@@ -21,6 +22,7 @@ export class Npc {
     id: number;
 
     @Column({ length: 50 })
+    @Index()
     name: string;
 
     @Column({ default: () => "'10'" })
@@ -118,6 +120,7 @@ export class Npc {
 
     @ManyToOne(() => Town, (towns) => towns.npcs)
     @JoinColumn({ name: 'npc_town' })
+    @Index()
     town: Town;
 
     @OneToOne(() => Inventory)

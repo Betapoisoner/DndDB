@@ -1,6 +1,7 @@
 import {
     Column,
     Entity,
+    Index,
     JoinColumn,
     JoinTable,
     ManyToMany,
@@ -30,6 +31,7 @@ export class Character {
     charisma: number;
 
     @Column({ length: 20 })
+    @Index()
     class: string;
 
     @Column({ default: () => "'10'" })
@@ -57,6 +59,7 @@ export class Character {
     intelligence: number;
 
     @Column({ default: () => "'1'" })
+    @Index()
     level: number;
 
     @Column({ length: 50, unique: true })
@@ -69,6 +72,7 @@ export class Character {
     proficiency_bonus: number;
 
     @Column({ length: 20 })
+    @Index()
     race: string;
 
     @Column({ type: 'bytea', nullable: true })
@@ -97,6 +101,7 @@ export class Character {
 
     @ManyToOne(() => Alignment, (alignment) => alignment.characters)
     @JoinColumn({ name: 'alignment' })
+    @Index()
     alignment: Alignment;
 
     @ManyToMany(() => Campaign, (campaigns) => campaigns.characters)

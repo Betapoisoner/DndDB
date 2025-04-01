@@ -1,12 +1,9 @@
 import dotenv from 'dotenv';
 import path from 'path';
-import logger  from './utils/logger';
+import logger from './utils/logger';
 
 // Load environment variables first to ensure availability for subsequent modules
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
-logger.debug('Environment variables loaded', {
-    envKeys: Object.keys(process.env).filter((k) => k.startsWith('DB')|| k.startsWith('LOG') || k.startsWith('CONSOLE')),
-});
 
 import express from 'express'; // Changed import syntax
 import bodyParser from 'body-parser';
@@ -20,6 +17,12 @@ AppDataSource.initialize()
         const app = express(); // Now correctly using the default export
 
         app.use(cors());
+        app.use((req, res, next) => {
+            if (req.body.photo) {
+                req.body.photo = Buffer.from(req.body.photo, 'base64');
+            }
+            next();
+        });
         app.use(express.json({ limit: '500mb' }));
         app.use(express.urlencoded({ extended: true, limit: '500mb' }));
         app.use(bodyParser.json());
@@ -29,7 +32,7 @@ AppDataSource.initialize()
             (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
                 const result = new (route.controller as any)()[route.action](req, res, next);
                 if (result instanceof Promise) {
-                    result.then((result) => result !== null && result !== undefined ? res.send(result) : undefined);
+                    result.then((result) => (result !== null && result !== undefined ? res.send(result) : undefined));
                 } else if (result !== null && result !== undefined) {
                     res.json(result);
                 }
@@ -40,4 +43,4 @@ AppDataSource.initialize()
             logger.silly('Express server has started on port 3000');
         });
     })
-    .catch((error) => console.log(error));
+    .catch((error) => logger.error(error));

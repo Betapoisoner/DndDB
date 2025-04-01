@@ -1,6 +1,7 @@
 import {
     Column,
     Entity,
+    Index,
     JoinColumn,
     JoinTable,
     ManyToMany,
@@ -28,6 +29,7 @@ export class Bbeg {
     challenge: string | null;
 
     @Column()
+    @Index()
     challenge_rating: number;
 
     @Column()
@@ -70,6 +72,7 @@ export class Bbeg {
     strength: number;
 
     @Column({ length: 50 })
+    @Index()
     type: string;
 
     @Column()
@@ -95,6 +98,7 @@ export class Bbeg {
 
     @ManyToOne(() => Alignment, (alignment) => alignment.bbegs, { cascade: true })
     @JoinColumn({ name: 'alignment' })
+    @Index()
     alignment: Alignment;
 
     @OneToMany(() => Dungeon, (dungeons) => dungeons.bbeg)

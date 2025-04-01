@@ -6,7 +6,7 @@ export class Inventory {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToMany(() => Item, (item) => item.iventories)
+    @ManyToMany(() => Item, (item) => item.inventories)
     @JoinTable({
         name: 'item_inventory',
         joinColumn: {

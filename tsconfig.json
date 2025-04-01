@@ -7,7 +7,7 @@
         "outDir": "./build",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "sourceMap": true,   
-        "esModuleInterop": true,
+        "sourceMap": true,
+        "esModuleInterop": true
     }
 }

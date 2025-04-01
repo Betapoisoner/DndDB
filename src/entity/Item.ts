@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Reward } from './Reward';
 import { Inventory } from './Inventory';
 import { Shop } from './Shop';
@@ -12,15 +12,18 @@ export class Item {
     description: string | null;
 
     @Column({ length: 50 })
+    @Index()
     name: string;
 
     @Column({ default: () => "'1'" })
     quantity: number;
 
     @Column({ length: 20 })
+    @Index()
     rarity: string;
 
     @Column({ length: 20 })
+    @Index()
     type: string;
 
     @Column()
@@ -33,7 +36,7 @@ export class Item {
     photo: Buffer;
 
     @ManyToMany(() => Inventory, (inventory) => inventory.items)
-    iventories: Inventory[];
+    inventories: Inventory[];
 
     @OneToMany(() => Reward, (rewards) => rewards.item)
     rewards: Reward[];

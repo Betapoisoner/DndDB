@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Item } from './Item';
 
 @Entity()
@@ -16,15 +16,18 @@ export class Reward {
     is_item: boolean | null;
 
     @Column({ length: 100 })
+    @Index()
     name: string;
 
     @Column({ default: () => "'1'" })
     quantity: number;
 
     @Column({ length: 20 })
+    @Index()
     rarity: string;
 
     @Column({ length: 50 })
+    @Index()
     type: string;
 
     @Column()

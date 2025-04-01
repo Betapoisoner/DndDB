@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Character } from './Character';
 import { Monster } from './Monster';
 import { Bbeg } from './Bbeg';
@@ -14,16 +14,19 @@ export class Spell {
 
     @Column()
     component: string;
+
     @Column()
     duration: string;
 
     @Column({ length: 255 })
+    @Index()
     name: string;
 
     @Column()
     range: string;
 
     @Column({ length: 255 })
+    @Index()
     school: string;
 
     @ManyToMany(() => Bbeg, (bbegs) => bbegs.spells)

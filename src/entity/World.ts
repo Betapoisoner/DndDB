@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Campaign } from './Campaign';
 import { Region } from './Region';
 
@@ -11,6 +11,7 @@ export class World {
     calendar: string | null;
 
     @Column({ nullable: true })
+    @Index()
     climate: string | null;
 
     @Column({ nullable: true })
@@ -29,6 +30,7 @@ export class World {
     map: Buffer;
 
     @Column({ length: 100 })
+    @Index()
     name: string;
 
     @ManyToMany(() => Campaign, (campaigns) => campaigns.worlds)

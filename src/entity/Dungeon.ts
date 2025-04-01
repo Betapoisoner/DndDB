@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Region } from './Region';
 import { Fauna } from './Fauna';
 import { Bbeg } from './Bbeg';
@@ -21,9 +21,11 @@ export class Dungeon {
     level_count: number;
 
     @Column({ length: 255 })
+    @Index()
     location: string;
 
     @Column({ length: 100 })
+    @Index()
     name: string;
 
     @Column()

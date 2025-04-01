@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Character } from './Character';
 import { Alignment } from './Alignment';
 
@@ -17,6 +17,7 @@ export class Patron {
     home_plane: string | null;
 
     @Column({ length: 100 })
+    @Index()
     name: string;
 
     @Column({ nullable: true })
@@ -26,7 +27,9 @@ export class Patron {
     rewards: string | null;
 
     @Column({ nullable: true, length: 50 })
+    @Index()
     type: string | null;
+
     @Column({ nullable: true })
     damage_resistances: string;
 

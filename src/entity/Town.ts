@@ -1,6 +1,7 @@
 import {
     Column,
     Entity,
+    Index,
     JoinColumn,
     ManyToOne,
     OneToMany,
@@ -20,12 +21,13 @@ export class Town {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @TreeParent()
-    capital: Town;
+    @TreeParent({ onDelete: 'SET NULL' })
+    capital: Town | null;
 
-    @TreeChildren()
-    towns_where_capital: Town[];
+    @TreeChildren({ cascade: true })
+    satelliteTowns: Town[];
 
+    
     @Column({
         nullable: true,
         default: () => 'false',
@@ -36,6 +38,7 @@ export class Town {
     landmarks: string | null;
 
     @Column({ length: 100 })
+    @Index()
     name: string;
 
     @Column()
@@ -55,6 +58,7 @@ export class Town {
 
     @ManyToOne(() => Region, (regions) => regions.towns)
     @JoinColumn({ name: 'region_id' })
+    @Index()
     region: Region;
 
     @OneToMany(() => Shop, (shops) => shops.town)

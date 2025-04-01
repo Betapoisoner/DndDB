@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Dungeon } from './Dungeon';
 import { World } from './World';
 import { Town } from './Town';
@@ -10,6 +10,7 @@ export class Region {
     id: number;
 
     @Column({ length: 50 })
+    @Index()
     climate: string;
 
     @Column({ nullable: true })
@@ -19,12 +20,14 @@ export class Region {
     landmarks: string | null;
 
     @Column({ length: 100 })
+    @Index()
     name: string;
 
     @Column({ nullable: true, length: 255 })
     resources: string | null;
 
     @Column({ length: 255 })
+    @Index()
     terrain: string;
 
     @Column({ type: 'bytea', nullable: true })

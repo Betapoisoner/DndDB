@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Bbeg } from './Bbeg';
 import { Npc } from './Npc';
 import { Monster } from './Monster';
@@ -9,6 +9,7 @@ export class Action {
     id: number;
 
     @Column({ length: 100 })
+    @Index()
     action_name: string;
 
     @Column({ nullable: true })

@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Character } from './Character';
 import { Npc } from './Npc';
 import { Bbeg } from './Bbeg';
@@ -13,6 +13,7 @@ export class Skill {
     description: string | null;
 
     @Column({ length: 50 })
+    @Index()
     name: string;
 
     @ManyToMany(() => Bbeg, (bbeg) => bbeg.skills)

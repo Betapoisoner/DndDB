@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Dungeon } from './Dungeon';
 import { Region } from './Region';
 import { Monster } from './Monster';
@@ -10,15 +10,20 @@ export class Fauna {
     @Column()
     level: number;
     @Column({ length: 100 })
+    @Index()
     name: string;
 
     @Column()
     quantity: number;
+
     @Column({ length: 50 })
+    @Index()
     type: string;
+
     @ManyToOne(() => Dungeon, (dungeons) => dungeons.faunas)
     @JoinColumn({ name: 'dungeon_id' })
     dungeon: Dungeon;
+
     @ManyToMany(() => Monster, (monsters) => monsters.faunas)
     @JoinTable({
         name: 'fauna_monster',
@@ -32,6 +37,7 @@ export class Fauna {
         },
     })
     monsters: Monster[];
+
     @ManyToOne(() => Region, (regions) => regions.faunas)
     @JoinColumn({ name: 'region_id' })
     region: Region;

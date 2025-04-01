@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Event } from './Event';
 import { Campaign } from './Campaign';
 
@@ -12,6 +12,7 @@ export class Session {
         default: () => 'CURRENT_TIMESTAMP',
         nullable: true,
     })
+    @Index()
     end_tme: Date;
 
     @Column({
@@ -19,6 +20,7 @@ export class Session {
         default: () => 'CURRENT_TIMESTAMP',
         nullable: true,
     })
+    @Index()
     start_time: Date;
 
     @Column({ nullable: true })
